@@ -1,3 +1,10 @@
+/**
+ * Brianna Allen
+ * CEN 3024 - Software Development 1
+ * March 9, 2026
+ * LegoApp.java
+ * This application will allow users to add,remove,update,list and display the total lego piece count.
+ */
 import java.util.Scanner;
 
 public class LegoApp {
