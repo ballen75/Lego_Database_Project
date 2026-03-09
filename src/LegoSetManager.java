@@ -2,15 +2,29 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * LegoSetManager Class
+ * This class manages a collection of LegoSet objects.
+ * It provides methods to add, delete, search, update, list,
+ * and load Lego sets from a file.
+ */
 public class LegoSetManager {
 
     private ArrayList<LegoSet> legoSets;
-
+    /**
+     * Default constructor
+     * Initializes the ArrayList that will store Lego sets.
+     */
     public LegoSetManager() {
         legoSets = new ArrayList<>();
     }
-
+    /**
+     * Adds a new Lego set to the collection.
+     * Prevents duplicate Lego set IDs from being added.
+     *
+     * @param set the LegoSet object to add
+     * @return true if the set was added successfully, false if the ID already exists
+     */
     public boolean addSet(LegoSet set) {
         if (findSet(set.getLegoSetID()) != null) {
             return false;    // duplicate ID
@@ -18,7 +32,12 @@ public class LegoSetManager {
         legoSets.add(set);
         return true;
     }
-
+    /**
+     * Deletes a Lego set from the collection based on its ID.
+     *
+     * @param legoSetID the ID of the Lego set to delete
+     * @return true if the set was found and removed, false otherwise
+     */
     public boolean deleteSet(String legoSetID) {
         LegoSet toRemove = findSet(legoSetID);
         if (toRemove == null) {
@@ -27,11 +46,21 @@ public class LegoSetManager {
         legoSets.remove(toRemove);
         return true;
     }
-
+    /**
+     * Returns the full list of Lego sets.
+     *
+     * @return an ArrayList containing all LegoSet objects
+     */
     public ArrayList<LegoSet> listSets() {
         return legoSets;
     }
-
+    /**
+     * Searches for a Lego set by its ID.
+     * The search ignores uppercase and lowercase differences.
+     *
+     * @param legoSetID the ID of the Lego set to search for
+     * @return the matching LegoSet object if found, otherwise null
+     */
     public LegoSet findSet(String legoSetID) {
         for (LegoSet s : legoSets) {
             if (s.getLegoSetID().equalsIgnoreCase(legoSetID)) {
@@ -40,8 +69,17 @@ public class LegoSetManager {
         }
         return null;
     }
+    /**
+     * Updates an attribute of an existing Lego set.
+     * This method allows the user to update the set ID, name,
+     * piece count, price, release year, or recommended age.
+     *
+     * @param legoSetID the ID of the Lego set to update
+     * @param attribute the attribute name to update
+     * @param value the new value to assign to the attribute
+     * @return true if the update was successful, false otherwise
+     */
 
-    // Only allow numeric fields to be updated: pieceCount, price, releaseYear, recommendedAge
     public boolean updateAttribute(String legoSetID, String attribute, String value) {
         LegoSet set = findSet(legoSetID);
         if (set == null) {
@@ -52,24 +90,46 @@ public class LegoSetManager {
 
         try {
             switch (attribute) {
+
+                case "setid":
+                case "legosetid":
+                    if (!value.matches("\\d+")) {
+                        return false; // must be digits
+                    }
+
+                    if (findSet(value) != null) {
+                        return false; // duplicate ID
+                    }
+
+                    set.setLegoSetID(value);
+                    return true;
+
+                case "name":
+                    set.setsetName(value);
+                    return true;
+
                 case "piececount":
                     set.setPieceCount(Integer.parseInt(value));
                     return true;
+
                 case "price":
                     set.setPrice(Double.parseDouble(value));
                     return true;
+
                 case "releaseyear":
                     set.setReleaseYear(Integer.parseInt(value));
                     return true;
+
                 case "recommendedage":
                     set.setRecommendedAge(Integer.parseInt(value));
                     return true;
+
                 default:
-                    // setName and legoSetID are NOT updatable through this method
                     return false;
             }
+
         } catch (NumberFormatException e) {
-            return false; // invalid numeric value
+            return false;
         }
     }
 

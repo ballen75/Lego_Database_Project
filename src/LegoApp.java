@@ -1,3 +1,10 @@
+/**
+ * Brianna Allen
+ * CEN 3024 - Software Development 1
+ * March 9, 2026
+ * LegoApp.java
+ * This application will allow users to add,remove,update,list and display the total lego piece count.
+ */
 import java.util.Scanner;
 
 public class LegoApp {
@@ -88,7 +95,7 @@ public class LegoApp {
         int choice = 0;
 
         while (choice != 6) {
-            System.out.println("\n=== Lego Set Manager ===");
+            System.out.println("\n Lego Set Manager ");
             System.out.println("1. Add Lego Set");
             System.out.println("2. Remove Lego Set");
             System.out.println("3. List Lego Sets");
@@ -178,7 +185,7 @@ public class LegoApp {
 
                     System.out.println("Current data: " + existing);
                     System.out.println("You can update one of these attributes:");
-                    System.out.println("pieceCount, price, releaseYear, recommendedAge");
+                    System.out.println("setID, Name, pieceCount, price, releaseYear, recommendedAge");
                     System.out.print("Enter attribute name: ");
                     String attribute = scanner.nextLine().trim();
 

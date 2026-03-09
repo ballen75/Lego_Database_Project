@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LegoDatabase:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LegoDatabase_jar</output-path>
+    <root id="archive" name="LegoDatabase.jar">
+      <element id="module-output" name="LegoDatabase" />
+    </root>
+  </artifact>
+</component>
