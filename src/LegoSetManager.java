@@ -52,24 +52,46 @@ public class LegoSetManager {
 
         try {
             switch (attribute) {
+
+                case "setid":
+                case "legosetid":
+                    if (!value.matches("\\d+")) {
+                        return false; // must be digits
+                    }
+
+                    if (findSet(value) != null) {
+                        return false; // duplicate ID
+                    }
+
+                    set.setLegoSetID(value);
+                    return true;
+
+                case "name":
+                    set.setsetName(value);
+                    return true;
+
                 case "piececount":
                     set.setPieceCount(Integer.parseInt(value));
                     return true;
+
                 case "price":
                     set.setPrice(Double.parseDouble(value));
                     return true;
+
                 case "releaseyear":
                     set.setReleaseYear(Integer.parseInt(value));
                     return true;
+
                 case "recommendedage":
                     set.setRecommendedAge(Integer.parseInt(value));
                     return true;
+
                 default:
-                    // setName and legoSetID are NOT updatable through this method
                     return false;
             }
+
         } catch (NumberFormatException e) {
-            return false; // invalid numeric value
+            return false;
         }
     }
 

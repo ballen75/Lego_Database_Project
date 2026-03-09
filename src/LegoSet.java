@@ -31,7 +31,7 @@ public class LegoSet {
         return setName;
     }
 
-    public void setSetName(String setName) {
+    public void setsetName(String setName) {
         this.setName = setName;
     }
 
