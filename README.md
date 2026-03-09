@@ -1,0 +1,1 @@
+Brianna Allen, CEN 3024C-23585 Java program for a Lego Database Management System that allows users to Add Lego Sets via a text file and display all Patrons. The console will also display a menu for users to select options to Add Legos, Remove Legos, List all Lego Sets, Update a Lego Set, Count all Lego pieces currently in the system or exit the menu. 
