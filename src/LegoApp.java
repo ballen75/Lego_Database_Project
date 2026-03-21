@@ -27,7 +27,17 @@ public class LegoApp {
 
     // helper to add a Lego set manually
     private static void addLegoSetManually(Scanner scanner, LegoSetManager manager) {
-        String id = setIDValidation(scanner);
+        String id;
+
+        while (true) {
+            id = setIDValidation(scanner);
+
+            if (manager.findSet(id) != null) {
+                System.out.println("Duplicate ID. Please enter a different Lego Set ID.");
+            } else {
+                break;
+            }
+        }
 
         System.out.print("Please enter the Lego Set Name: ");
         String name = scanner.nextLine();
@@ -94,41 +104,27 @@ public class LegoApp {
 
         int choice = 0;
 
-        while (choice != 6) {
+        while (choice != 7) {
             System.out.println("\n Lego Set Manager ");
-            System.out.println("1. Add Lego Set");
-            System.out.println("2. Remove Lego Set");
-            System.out.println("3. List Lego Sets");
-            System.out.println("4. Show Total Pieces");
-            System.out.println("5. Update Lego Set");
-            System.out.println("6. Quit");
+            System.out.println("1. Add Lego Set Manually");
+            System.out.println("2. Add Lego Sets from text file");
+            System.out.println("3. Remove Lego Set");
+            System.out.println("4. List Lego Sets");
+            System.out.println("5. Show Total Pieces");
+            System.out.println("6. Update Lego Set");
+            System.out.println("7. Quit");
             System.out.print("Enter choice: ");
 
             while (!scanner.hasNextInt()) {
-                System.out.println("Please enter a number between 1 and 6.");
+                System.out.println("Please enter a number between 1 and 7.");
                 scanner.next();
             }
             choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
-            switch (choice) {
-                case 1:
-                    // sub-menu for add options
-                    System.out.println("\nAdd Lego Set:");
-                    System.out.println("1. Add manually");
-                    System.out.println("2. Add from text file");
-                    System.out.println("3. Cancel");
-                    System.out.print("Enter choice: ");
 
-                    int addChoice;
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Please enter 1, 2, or 3.");
-                        scanner.next();
-                    }
-                    addChoice = scanner.nextInt();
-                    scanner.nextLine(); // consume newline
 
-                    switch (addChoice) {
+                    switch (choice) {
                         case 1:
                             addLegoSetManually(scanner, manager);
                             break;
@@ -138,15 +134,10 @@ public class LegoApp {
                             int loaded = manager.loadSetsFromFile(path);
                             System.out.println("Lego sets loaded: " + loaded);
                             break;
-                        case 3:
-                            System.out.println("Add cancelled.");
-                            break;
-                        default:
-                            System.out.println("Invalid choice.");
-                    }
-                    break;
 
-                case 2:
+
+
+                case 3:
                     System.out.print("Please enter the Lego Set ID to remove: ");
                     String removeID = scanner.nextLine().trim();
                     boolean removed = manager.deleteSet(removeID);
@@ -157,7 +148,7 @@ public class LegoApp {
                     }
                     break;
 
-                case 3:
+                case 4:
                     System.out.println("Displaying all Lego Sets:");
                     if (manager.listSets().isEmpty()) {
                         System.out.println("No Lego Sets in the system.");
@@ -168,12 +159,12 @@ public class LegoApp {
                     }
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Total pieces across all sets: " +
                             manager.countTotalPieces());
                     break;
 
-                case 5:
+                case 6:
                     System.out.print("Enter the Lego Set ID to update: ");
                     String updateID = scanner.nextLine().trim();
 
@@ -200,12 +191,12 @@ public class LegoApp {
                     }
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Quitting the program.");
                     break;
 
                 default:
-                    System.out.println("Invalid choice. Please select 1–6.");
+                    System.out.println("Invalid choice. Please select 1–7.");
             }
         }
 
