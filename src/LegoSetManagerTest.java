@@ -79,18 +79,68 @@ class LegoSetManagerTest {
     }
 
     @org.junit.jupiter.api.Test
+    @DisplayName("Add Set - Set found using setID")
     void findSet() {
+        LegoSetManager manager = new LegoSetManager();
+        manager.addSet(legoset);
+        assertEquals(legoset, manager.findSet("75419"));
     }
 
     @org.junit.jupiter.api.Test
+    @DisplayName("Set can not be found because setID does not exist")
+    void findSetNoSetID() {
+        LegoSetManager manager = new LegoSetManager();
+        manager.addSet(legoset);
+        LegoSet result = manager.findSet("123456");
+        assertNull(result, " Expected no Lego Set to be found for ID 123456");
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Update attribute of Lego Set using pieceCount")
     void updateAttribute() {
+        LegoSetManager manager = new LegoSetManager();
+        manager.addSet(legoset);
+
+        boolean updated = manager.updateAttribute(
+                "75419",
+                "pieceCount",
+                "9500"
+        );
+        LegoSet updatedSet = manager.findSet("75419");
+        assertTrue(updated);
+        assertEquals(9500, updatedSet.getPieceCount());
     }
 
     @org.junit.jupiter.api.Test
+    @DisplayName("Count total pieces - expect piece count to match 9023")
     void countTotalPieces() {
+        LegoSetManager manager = new LegoSetManager();
+        manager.addSet(legoset);
+        int result = manager.countTotalPieces();
+        assertEquals(9023, result);
+    }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("Expect pieces count to be zero per no sets have been added")
+    void countTotalPiecesNoSets() {
+        LegoSetManager manager = new LegoSetManager();
+        int totalPieces = manager.countTotalPieces();
+        assertEquals(0, totalPieces);
     }
 
     @org.junit.jupiter.api.Test
     void loadSetsFromFile() {
+        LegoSetManager manager = new LegoSetManager();
+        String filepath = "src/lego_sets";
+        int loadedCount = manager.loadSetsFromFile(filepath);
+
+        LegoSet firstSet = manager.findSet("77056");
+        assertNotNull(firstSet, "First Lego set should exist after loading");
+        assertEquals("Blathers's Museum Collection", firstSet.getSetName());
+
+        LegoSet secondSet = manager.findSet("77093");
+        assertNotNull(secondSet, "Second Lego set should exist after loading");
+        assertEquals("Buggy the Clown Figure", secondSet.getSetName());
+
     }
 }
