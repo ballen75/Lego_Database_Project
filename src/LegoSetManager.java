@@ -163,6 +163,7 @@ public class LegoSetManager {
                 } else {
                     currentLine.append(ch);
                 }
+
             }
 
             // last line if no newline at end
