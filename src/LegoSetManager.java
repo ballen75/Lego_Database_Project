@@ -94,34 +94,53 @@ public class LegoSetManager {
                 case "setid":
                 case "legosetid":
                     if (!value.matches("\\d+")) {
-                        return false; // must be digits
+                        return false;
                     }
 
-                    if (findSet(value) != null) {
-                        return false; // duplicate ID
+                    if (!set.getLegoSetID().equalsIgnoreCase(value) && findSet(value) != null) {
+                        return false;
                     }
 
                     set.setLegoSetID(value);
                     return true;
 
                 case "name":
-                    set.setsetName(value);
+                    if (value == null || value.trim().isEmpty()) {
+                        return false;
+                    }
+                    set.setsetName(value.trim());
                     return true;
 
                 case "piececount":
-                    set.setPieceCount(Integer.parseInt(value));
+                    int pieces = Integer.parseInt(value);
+                    if (pieces < 0 || pieces > 10000) {
+                        return false;
+                    }
+                    set.setPieceCount(pieces);
                     return true;
 
                 case "price":
-                    set.setPrice(Double.parseDouble(value));
+                    double price = Double.parseDouble(value);
+                    if (price < 0 || price > 1000) {
+                        return false;
+                    }
+                    set.setPrice(price);
                     return true;
 
                 case "releaseyear":
-                    set.setReleaseYear(Integer.parseInt(value));
+                    int year = Integer.parseInt(value);
+                    if (year < 1950 || year > 2026) {
+                        return false;
+                    }
+                    set.setReleaseYear(year);
                     return true;
 
                 case "recommendedage":
-                    set.setRecommendedAge(Integer.parseInt(value));
+                    int age = Integer.parseInt(value);
+                    if (age < 1 || age > 99) {
+                        return false;
+                    }
+                    set.setRecommendedAge(age);
                     return true;
 
                 default:
@@ -129,9 +148,11 @@ public class LegoSetManager {
             }
 
         } catch (NumberFormatException e) {
-            return false;
+            return false; // catches non-int / non-double input
         }
     }
+
+
 
     public int countTotalPieces() {
         int total = 0;
