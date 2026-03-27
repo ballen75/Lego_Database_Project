@@ -69,7 +69,7 @@ public class LegoAppGUI extends Application {
         borderPane.setCenter(layout);
 
 // Loads the background image for the GUI
-        Image bgImage = new Image("file:C:\\Users\\brisi\\OneDrive\\Documents\\Software Dev 1\\LegoDatabase\\src\\images\\LegoBackground1.jpg"); // relative path
+        Image bgImage = new Image("file:C:\\Users\\brisi\\OneDrive\\Documents\\Software Dev 1\\LegoDatabase\\src\\images\\LegoBackground.jpg"); // relative path
         BackgroundSize bgSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage backgroundImage = new BackgroundImage(
                 bgImage,
