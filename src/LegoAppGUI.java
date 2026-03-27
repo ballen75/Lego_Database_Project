@@ -12,7 +12,8 @@ import java.io.File;
 
 public class LegoAppGUI extends Application {
 
-    private LegoSetManager manager = new LegoSetManager();
+
+    private LegoSetManager manager = new LegoSetManager(); //Object that handles CRUD operations
     private TableView<LegoSet> table = new TableView<>();
 
     private final String buttonColor = "#3498db"; // blue
@@ -67,7 +68,7 @@ public class LegoAppGUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(layout);
 
-// Load the image
+// Loads the background image for the GUI
         Image bgImage = new Image("file:C:\\Users\\brisi\\OneDrive\\Documents\\Software Dev 1\\LegoDatabase\\src\\images\\legobackground.jpg"); // relative path
         BackgroundSize bgSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage backgroundImage = new BackgroundImage(
@@ -101,7 +102,7 @@ public class LegoAppGUI extends Application {
                 "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5,0,0,1);");
         return btn;
     }
-
+    //Dialog to add new Lego Set's.
     private void addLegoSetDialog() {
         Dialog<LegoSet> dialog = new Dialog<>();
         dialog.setTitle("Add Lego Set");
@@ -182,7 +183,7 @@ public class LegoAppGUI extends Application {
             table.getItems().add(set);
         });
     }
-
+    //Load Lego Sets from a file
     private void loadFromFile(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Lego Set File");
@@ -193,7 +194,7 @@ public class LegoAppGUI extends Application {
             showAlert(loaded + " Lego sets loaded.");
         }
     }
-
+ // Remove selected Lego Set.
     private void removeLegoSet() {
         LegoSet selected = table.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -203,7 +204,7 @@ public class LegoAppGUI extends Application {
             showAlert("Select a Lego set to remove.");
         }
     }
-
+ // Update selected Lego Set
     private void updateLegoSetDialog() {
         LegoSet selected = table.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -277,7 +278,7 @@ public class LegoAppGUI extends Application {
 
         dialog.showAndWait();
     }
-
+ //Display the total number of lego pieces stored in local data.
     private void showTotalPieces() {
         int total = manager.countTotalPieces();
         showAlert("Total pieces across all sets: " + total);
