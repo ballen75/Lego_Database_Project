@@ -24,22 +24,23 @@ public class LegoAppGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        //Sets the title of my GUI window
         primaryStage.setTitle("Lego Set Manager");
 
-        // --- Table Columns ---
+        // Each table represents a property of the LegoSet to display
         TableColumn<LegoSet, String> idCol = new TableColumn<>("Set ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("legoSetID"));
 
         TableColumn<LegoSet, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("setName"));
 
-        TableColumn<LegoSet, Integer> piecesCol = new TableColumn<>("Pieces");
+        TableColumn<LegoSet, Integer> piecesCol = new TableColumn<>("Total Pieces");
         piecesCol.setCellValueFactory(new PropertyValueFactory<>("pieceCount"));
 
         TableColumn<LegoSet, Double> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TableColumn<LegoSet, Integer> yearCol = new TableColumn<>("Year");
+        TableColumn<LegoSet, Integer> yearCol = new TableColumn<>("Year Released");
         yearCol.setCellValueFactory(new PropertyValueFactory<>("releaseYear"));
 
         TableColumn<LegoSet, Integer> ageCol = new TableColumn<>("Recommended Age");
@@ -48,9 +49,9 @@ public class LegoAppGUI extends Application {
         table.getColumns().addAll(idCol, nameCol, piecesCol, priceCol, yearCol, ageCol);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // --- Buttons ---
-        Button addButton = createButton("Add Lego Set");
-        Button loadButton = createButton("Load from File");
+        // Create buttons for the CRUD actions.
+        Button addButton = createButton("Add Set");
+        Button loadButton = createButton("Upload File");
         Button removeButton = createButton("Remove Set");
         Button updateButton = createButton("Update Set");
         Button totalButton = createButton("Show Total Pieces");
@@ -67,7 +68,7 @@ public class LegoAppGUI extends Application {
         borderPane.setCenter(layout);
 
 // Load the image
-        Image bgImage = new Image("file:images/legobackground.jpg"); // relative path
+        Image bgImage = new Image("file:C:\\Users\\brisi\\OneDrive\\Documents\\Software Dev 1\\LegoDatabase\\src\\images\\legobackground.jpg"); // relative path
         BackgroundSize bgSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage backgroundImage = new BackgroundImage(
                 bgImage,
@@ -78,12 +79,12 @@ public class LegoAppGUI extends Application {
 
         borderPane.setBackground(new Background(backgroundImage));
 
-// --- Scene uses borderPane now ---
+
         Scene scene = new Scene(borderPane, 900, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // --- Button Actions ---
+        // Connect buttons to the methods
         addButton.setOnAction(e -> addLegoSetDialog());
         loadButton.setOnAction(e -> loadFromFile(primaryStage));
         removeButton.setOnAction(e -> removeLegoSet());
