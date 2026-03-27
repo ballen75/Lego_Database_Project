@@ -164,32 +164,151 @@ public class LegoApp {
                             manager.countTotalPieces());
                     break;
 
-                case 6:
-                    System.out.print("Enter the Lego Set ID to update: ");
-                    String updateID = scanner.nextLine().trim();
+                        case 6:
+                            System.out.print("Enter the Lego Set ID to update: ");
+                            String updateID = scanner.nextLine().trim();
 
-                    LegoSet existing = manager.findSet(updateID);
-                    if (existing == null) {
-                        System.out.println("No Lego Set found with that ID.");
-                        break;
-                    }
+                            LegoSet existing = manager.findSet(updateID);
+                            if (existing == null) {
+                                System.out.println("No Lego Set found with that ID.");
+                                break;
+                            }
 
-                    System.out.println("Current data: " + existing);
-                    System.out.println("You can update one of these attributes:");
-                    System.out.println("setID, Name, pieceCount, price, releaseYear, recommendedAge");
-                    System.out.print("Enter attribute name: ");
-                    String attribute = scanner.nextLine().trim();
+                            int subChoice;
 
-                    System.out.print("Enter new value for " + attribute + ": ");
-                    String newValue = scanner.nextLine().trim();
+                            do {
+                                System.out.println("\nCurrent data: " + existing);
+                                System.out.println("\n--- UPDATE MENU ---");
+                                System.out.println("1. Name");
+                                System.out.println("2. Set ID");
+                                System.out.println("3. Piece Count");
+                                System.out.println("4. Price");
+                                System.out.println("5. Release Year");
+                                System.out.println("6. Recommended Age");
+                                System.out.println("7. Back");
+                                System.out.print("Choose option: ");
 
-                    boolean updated = manager.updateAttribute(updateID, attribute, newValue);
-                    if (updated) {
-                        System.out.println("Lego Set updated: " + manager.findSet(updateID));
-                    } else {
-                        System.out.println("Update failed. Check attribute name and value.");
-                    }
-                    break;
+                                while (!scanner.hasNextInt()) {
+                                    System.out.println("Enter a number 1–7.");
+                                    scanner.next();
+                                }
+
+                                subChoice = scanner.nextInt();
+                                scanner.nextLine(); // consume newline
+
+                                String newValue = "";
+                                String attribute = "";
+
+                                switch (subChoice) {
+
+                                    case 1: // Name
+                                        attribute = "name";
+                                        System.out.print("Enter new name: ");
+                                        newValue = scanner.nextLine().trim();
+                                        break;
+
+                                    case 2: // Set ID
+                                        attribute = "setid";
+                                        newValue = setIDValidation(scanner);
+
+                                        if (manager.findSet(newValue) != null &&
+                                                !newValue.equalsIgnoreCase(updateID)) {
+                                            System.out.println("Duplicate ID. Update canceled.");
+                                            continue;
+                                        }
+                                        break;
+
+                                    case 3: // Piece Count
+                                        attribute = "piececount";
+                                        while (true) {
+                                            System.out.print("Enter piece count (0–10000): ");
+                                            try {
+                                                int val = Integer.parseInt(scanner.nextLine());
+                                                if (val >= 0 && val <= 10000) {
+                                                    newValue = String.valueOf(val);
+                                                    break;
+                                                }
+                                                System.out.println("Out of range.");
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Invalid number.");
+                                            }
+                                        }
+                                        break;
+
+                                    case 4: // Price
+                                        attribute = "price";
+                                        while (true) {
+                                            System.out.print("Enter price (0–1000): ");
+                                            try {
+                                                double val = Double.parseDouble(scanner.nextLine());
+                                                if (val >= 0 && val <= 1000) {
+                                                    newValue = String.valueOf(val);
+                                                    break;
+                                                }
+                                                System.out.println("Out of range.");
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Invalid number.");
+                                            }
+                                        }
+                                        break;
+
+                                    case 5: // Release Year
+                                        attribute = "releaseyear";
+                                        while (true) {
+                                            System.out.print("Enter year (1950–2026): ");
+                                            try {
+                                                int val = Integer.parseInt(scanner.nextLine());
+                                                if (val >= 1950 && val <= 2026) {
+                                                    newValue = String.valueOf(val);
+                                                    break;
+                                                }
+                                                System.out.println("Out of range.");
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Invalid year.");
+                                            }
+                                        }
+                                        break;
+
+                                    case 6: // Recommended Age
+                                        attribute = "recommendedage";
+                                        while (true) {
+                                            System.out.print("Enter age (1–99): ");
+                                            try {
+                                                int val = Integer.parseInt(scanner.nextLine());
+                                                if (val >= 1 && val <= 99) {
+                                                    newValue = String.valueOf(val);
+                                                    break;
+                                                }
+                                                System.out.println("Out of range.");
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Invalid age.");
+                                            }
+                                        }
+                                        break;
+
+                                    case 7:
+                                        System.out.println("Returning to main menu...");
+                                        continue;
+
+                                    default:
+                                        System.out.println("Invalid choice.");
+                                        continue;
+                                }
+
+                                boolean updated = manager.updateAttribute(updateID, attribute, newValue);
+
+                                if (updated) {
+                                    System.out.println("Updated successfully!");
+                                    existing = manager.findSet(updateID); // refresh object
+                                } else {
+                                    System.out.println("Update failed.");
+                                }
+
+                            } while (subChoice != 7);
+
+                            break;
+
+
 
                 case 7:
                     System.out.println("Quitting the program.");
