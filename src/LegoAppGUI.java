@@ -6,6 +6,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import java.io.File;
 
@@ -57,9 +58,30 @@ public class LegoAppGUI extends Application {
         HBox buttonBox = new HBox(10, addButton, loadButton, removeButton, updateButton, totalButton);
         buttonBox.setPadding(new Insets(10));
 
+        // --- Your existing VBox with table + buttons ---
         VBox layout = new VBox(10, table, buttonBox);
         layout.setPadding(new Insets(10));
-        layout.setStyle("-fx-background-color: #FDF6E3;"); // light background
+
+// --- Create a BorderPane and set background image ---
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(layout);
+
+// Load the image
+        Image bgImage = new Image("file:images/legobackground.jpg"); // relative path
+        BackgroundSize bgSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
+        BackgroundImage backgroundImage = new BackgroundImage(
+                bgImage,
+                BackgroundRepeat.NO_REPEAT,  // don't repeat
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                bgSize);
+
+        borderPane.setBackground(new Background(backgroundImage));
+
+// --- Scene uses borderPane now ---
+        Scene scene = new Scene(borderPane, 900, 500);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
         // --- Button Actions ---
         addButton.setOnAction(e -> addLegoSetDialog());
@@ -68,9 +90,7 @@ public class LegoAppGUI extends Application {
         updateButton.setOnAction(e -> updateLegoSetDialog());
         totalButton.setOnAction(e -> showTotalPieces());
 
-        Scene scene = new Scene(layout, 900, 500);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
     }
 
     private Button createButton(String text) {
