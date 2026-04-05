@@ -128,39 +128,66 @@ public class LegoAppGUI extends Application {
         Dialog<LegoSet> dialog = new Dialog<>();
         dialog.setTitle("Add Lego Set");
 
-        TextField id = new TextField();
-        TextField name = new TextField();
-        TextField pieces = new TextField();
-        TextField price = new TextField();
-        TextField year = new TextField();
-        TextField age = new TextField();
+        TextField idField = new TextField();
+        TextField nameField = new TextField();
+        TextField piecesField = new TextField();
+        TextField priceField = new TextField();
+        TextField yearField = new TextField();
+        TextField ageField = new TextField();
 
         GridPane grid = new GridPane();
-        grid.setHgap(10); grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-        grid.add(new Label("ID:"), 0, 0); grid.add(id, 1, 0);
-        grid.add(new Label("Name:"), 0, 1); grid.add(name, 1, 1);
-        grid.add(new Label("Pieces:"), 0, 2); grid.add(pieces, 1, 2);
-        grid.add(new Label("Price:"), 0, 3); grid.add(price, 1, 3);
-        grid.add(new Label("Year:"), 0, 4); grid.add(year, 1, 4);
-        grid.add(new Label("Age:"), 0, 5); grid.add(age, 1, 5);
+        grid.add(new Label("ID:"), 0, 0); grid.add(idField, 1, 0);
+        grid.add(new Label("Name:"), 0, 1); grid.add(nameField, 1, 1);
+        grid.add(new Label("Pieces:"), 0, 2); grid.add(piecesField, 1, 2);
+        grid.add(new Label("Price:"), 0, 3); grid.add(priceField, 1, 3);
+        grid.add(new Label("Year:"), 0, 4); grid.add(yearField, 1, 4);
+        grid.add(new Label("Age:"), 0, 5); grid.add(ageField, 1, 5);
 
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         dialog.setResultConverter(btn -> {
             if (btn == ButtonType.OK) {
+                String id = idField.getText().trim();
+                String name = nameField.getText().trim();
+                String piecesStr = piecesField.getText().trim();
+                String priceStr = priceField.getText().trim();
+                String yearStr = yearField.getText().trim();
+                String ageStr = ageField.getText().trim();
+
+                if (id.isEmpty() || name.isEmpty() || piecesStr.isEmpty() || priceStr.isEmpty()
+                        || yearStr.isEmpty() || ageStr.isEmpty()) {
+                    showAlert("All fields must be filled!");
+                    return null;
+                }
+
                 try {
-                    return new LegoSet(
-                            id.getText(),
-                            name.getText(),
-                            Integer.parseInt(pieces.getText()),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(year.getText()),
-                            Integer.parseInt(age.getText())
-                    );
-                } catch (Exception e) {
-                    showAlert("Invalid input!");
+                    int pieces = Integer.parseInt(piecesStr);
+                    if (pieces < 0 || pieces > 10000) { showAlert("Pieces must be 0–10000."); return null; }
+
+                    double price = Double.parseDouble(priceStr);
+                    if (price < 0 || price > 1000) { showAlert("Price must be 0–1000."); return null; }
+
+                    int year = Integer.parseInt(yearStr);
+                    if (year < 1950 || year > 2026) { showAlert("Year must be 1950–2026."); return null; }
+
+                    int age = Integer.parseInt(ageStr);
+                    if (age < 1 || age > 99) { showAlert("Age must be 1–99."); return null; }
+
+                    // Check if ID already exists
+                    if (LegoDAO.exists(conn, id)) {
+                        showAlert("ID already exists!");
+                        return null;
+                    }
+
+                    return new LegoSet(id, name, pieces, price, year, age);
+
+                } catch (NumberFormatException e) {
+                    showAlert("Invalid number input.");
+                    return null;
                 }
             }
             return null;
@@ -172,7 +199,7 @@ public class LegoAppGUI extends Application {
         });
     }
 
-    // ---------------------- LOAD FROM FILE (HYBRID PARSER) ----------------------
+    // ---------------------- LOAD FROM FILE () ----------------------
     private void loadSetsFromFile(Stage stage) {
         if (conn == null) {
             showAlert("Connect to database first.");
