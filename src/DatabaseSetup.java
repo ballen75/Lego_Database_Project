@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.Statement;
 
+//This class sets up the database structure.
 public class DatabaseSetup {
 
     public static void createTable(Connection conn) {

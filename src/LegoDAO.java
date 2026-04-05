@@ -2,6 +2,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//Data Access Object for interacting with lego set tables
 public class LegoDAO {
 
     public static boolean exists(Connection conn, String legoSetID) {

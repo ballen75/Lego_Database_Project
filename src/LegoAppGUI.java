@@ -100,7 +100,7 @@ public class LegoAppGUI extends Application {
         return btn;
     }
 
-    // ---------------------- DATABASE CONNECTION ----------------------
+    // Connection to Database
     private void connectToDatabase(Stage stage) {
         TextInputDialog dialog = new TextInputDialog("lego.db");
         dialog.setTitle("Connect to Database");
@@ -118,7 +118,7 @@ public class LegoAppGUI extends Application {
         });
     }
 
-    // ---------------------- ADD ----------------------
+    // Add data manually to the Lego Database
     private void addLegoSetDialog() {
         if (conn == null) {
             showAlert("Connect to database first.");
@@ -199,7 +199,7 @@ public class LegoAppGUI extends Application {
         });
     }
 
-    // ---------------------- LOAD FROM FILE () ----------------------
+    // Batch upload sets from a text file
     private void loadSetsFromFile(Stage stage) {
         if (conn == null) {
             showAlert("Connect to database first.");
@@ -267,7 +267,7 @@ public class LegoAppGUI extends Application {
         }
     }
 
-    // ---------------------- REMOVE ----------------------
+    // Delete lego set from the database
     private void removeLegoSet() {
         LegoSet selected = table.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -278,7 +278,7 @@ public class LegoAppGUI extends Application {
         }
     }
 
-    // ---------------------- UPDATE ----------------------
+    // Update Lego Set
     private void updateLegoSetDialog() {
         LegoSet selected = table.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -356,7 +356,7 @@ public class LegoAppGUI extends Application {
 
         dialog.showAndWait();
     }
-    // ---------------------- TOTAL ----------------------
+    // Custom Method for total lego pieces in the database
     private void showTotalPieces() {
         int total = LegoDAO.getAllSets(conn)
                 .stream()
@@ -366,7 +366,7 @@ public class LegoAppGUI extends Application {
         showAlert("Total Pieces: " + total);
     }
 
-    // ---------------------- REFRESH ----------------------
+    // Refresh Table
     private void refreshTable() {
         table.setItems(FXCollections.observableArrayList(
                 LegoDAO.getAllSets(conn)

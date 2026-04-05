@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+//Class to handle connecting to SQLite Database
 public class DatabaseManager {
 
     public static Connection connect(String dbPath) {
