@@ -135,6 +135,17 @@ public class LegoAppGUI extends Application {
         TextField yearField = new TextField();
         TextField ageField = new TextField();
 
+        // --- Only allow digits for Set ID ---
+        idField.setTextFormatter(new TextFormatter<String>(change -> {
+            if (change.getText().matches("[0-9]*")) {
+                idField.setStyle(""); // reset style if valid
+                return change;
+            } else {
+                idField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                return null; // reject non-digit input
+            }
+        }));
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -165,6 +176,7 @@ public class LegoAppGUI extends Application {
                 }
 
                 try {
+                    // Validate numeric fields
                     int pieces = Integer.parseInt(piecesStr);
                     if (pieces < 0 || pieces > 10000) { showAlert("Pieces must be 0–10000."); return null; }
 
@@ -177,7 +189,7 @@ public class LegoAppGUI extends Application {
                     int age = Integer.parseInt(ageStr);
                     if (age < 1 || age > 99) { showAlert("Age must be 1–99."); return null; }
 
-                    // Check if ID already exists
+                    // Check ID: numeric only (already enforced) + uniqueness
                     if (LegoDAO.exists(conn, id)) {
                         showAlert("ID already exists!");
                         return null;
