@@ -12,6 +12,10 @@ import javafx.scene.image.Image;
 import java.io.*;
 import java.sql.Connection;
 
+/**
+ * LegoAppGUI class provides the graphical user interface for managing Lego Sets using JavaFX
+ * Users can connect to a database, add, update, remove and load Lego sets from a file.
+ */
 public class LegoAppGUI extends Application {
 
     private TableView<LegoSet> table = new TableView<>();
@@ -20,10 +24,18 @@ public class LegoAppGUI extends Application {
     private final String buttonColor = "#3498db";
     private final String buttonTextColor = "#ffffff";
 
+    /**
+     * Launches the JavaFX application.
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Initializes and displays the main application window.
+     * @param primaryStage the primary stage for the application.
+     */
     @Override
     public void start(Stage primaryStage) {
 

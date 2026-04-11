@@ -152,6 +152,11 @@ public class LegoSetManager {
         }
     }
 
+    /**
+     * Calculates the total number of pieces across all Lego Sets.
+     *
+     * @return the total piece count.
+     */
 
 
     public int countTotalPieces() {
@@ -162,8 +167,13 @@ public class LegoSetManager {
         return total;
     }
 
-    // loadSetsFromFile(filePath : String) : int
-    // expects lines: ID-Name-Pieces-Price-Year-Age
+    /**
+     * Load Lego Sets from a text file.
+     * Each line in the file must follow the format :
+     * ID-Name-Pieces-Price-Year-Age
+     * @param filePath the path to the input file
+     * @return the number of succesfully loaded Lego Sets.
+     */
     public int loadSetsFromFile(String filePath) {
         int loadedCount = 0;
 
@@ -204,8 +214,13 @@ public class LegoSetManager {
         return loadedCount;
     }
 
-    // parseSet(line : String) : LegoSet
-    // expects: ID-Name-Pieces-Price-Year-Age
+    /**
+     * Parses a single line of text into LegoSet object.
+     * Expected format : ID-Name-Pieces-Price-Year-Age
+     *
+     * @param line the line of text parsed
+     * @return LegoSet object if parsing is successful; null if line is invalid
+     */
     public LegoSet parseSet(String line) {
         String[] parts = line.split("-");
         if (parts.length != 6) {

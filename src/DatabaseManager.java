@@ -1,7 +1,10 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-//Class to handle connecting to SQLite Database
+/**
+ * Establishes a connection to a SQlite database using a provided file path.
+ @return connection object if connection is successful; null if connection fails
+ */
 public class DatabaseManager {
 
     public static Connection connect(String dbPath) {

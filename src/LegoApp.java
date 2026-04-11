@@ -9,7 +9,12 @@ import java.util.Scanner;
 
 public class LegoApp {
 
-    // String ID, digits only, any length
+    /**
+     * Prompts the user to enter a valid Lego Set ID.
+     * The ID must contain only digits.
+     * @param scanner Scanner object used to read the users input.
+     * @return valid Lego Set ID consiting only of digits.
+     */
     public static String setIDValidation(Scanner scanner) {
         String setID;
 
@@ -25,7 +30,12 @@ public class LegoApp {
         }
     }
 
-    // helper to add a Lego set manually
+    /**
+     * Prompts user to manually input details for a new Lego Set.
+     * Adds to the manager if the ID is not a duplicate.
+     * @param scanner Scanner object used to read user input.
+     * @param manager LegoSetManager object used to manage Lego Sets.
+     */
     private static void addLegoSetManually(Scanner scanner, LegoSetManager manager) {
         String id;
 
@@ -98,6 +108,12 @@ public class LegoApp {
         }
     }
 
+    /**
+     * Main method that runs Lego Set Manager application.
+     * Displays the menu and processes any user input.
+     *
+     * @param args command-line argument
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         LegoSetManager manager = new LegoSetManager();

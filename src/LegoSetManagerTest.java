@@ -2,10 +2,16 @@ import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * LegoSetManagerTest class contains unit tests for the LegoSetManager.
+ * Verifies correct functionality for adding, deleting, listing, updating, and loading data from files.
+ */
 class LegoSetManagerTest {
 
 
-    //create an object to be tested
+    /**
+     * Sample legoset object used across test cases
+     */
     LegoSet legoset;
 
     @org.junit.jupiter.api.BeforeEach
@@ -13,7 +19,11 @@ class LegoSetManagerTest {
         legoset = new LegoSet("75419", "Death Star", 9023, 999.99, 2026, 18);
     }
 
-    //Unit test to add data manually to our database.
+    /**
+     * Tests that a Lego set can be successfully added to the manager.
+     *
+     */
+
     @org.junit.jupiter.api.Test
     @DisplayName("Add lego set to database")
     void addSet() {
@@ -23,7 +33,9 @@ class LegoSetManagerTest {
         assertEquals(1, manager.listSets().size());
     }
 
-    // Unit test to verify that a duplicate ID can not be added to the database.
+    /**
+     * Tests that duplicate set IDs are not allowed.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Verify duplicate ID can not be saved to the database")
     void addDuplicateSet() {
@@ -38,7 +50,9 @@ class LegoSetManagerTest {
 
     }
 
-    //Unit test to verify an object can be removed from our database.
+    /**
+     * Tests that a Lego set can be removed using its ID
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Remove set from database using setID")
     void deleteSet() {
@@ -51,7 +65,9 @@ class LegoSetManagerTest {
 
     }
 
-    //Unit test to test a setID that does not exist in our database..
+    /**
+     * Tests deletion with a non-existent set ID
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Delete set - reject non-existent setID")
     void deleteSetNoSetID() {
@@ -64,7 +80,9 @@ class LegoSetManagerTest {
 
     }
 
-    //Unit test to verify correct output if no data exists in our database.
+    /**
+     * Tests listing sets when no data has been added.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("List set - before any data is loaded")
     void listSetsEmpty() {
@@ -73,7 +91,9 @@ class LegoSetManagerTest {
         assertEquals(0, manager.listSets().size());
     }
 
-    //Unit test to verify stored data will display in a list properly.
+    /**
+     * Tests that stored Lego Sets are returned correctly.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("List Sets - Verify data is saved and displayed")
     void listSets() {
@@ -82,7 +102,9 @@ class LegoSetManagerTest {
         assertEquals(1, manager.listSets().size());
     }
 
-    //Unit test to verify set can be found in the database.
+    /**
+     * Tests that a Lego Set can be found using its ID.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Find Set - Set found using setID")
     void findSet() {
@@ -91,7 +113,9 @@ class LegoSetManagerTest {
         assertEquals(legoset, manager.findSet("75419"));
     }
 
-    //Unit test to verify that a setID that does not exist shows the proper message.
+    /**
+     * Tests searching for a non-existing Lego set ID.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Set can not be found because setID does not exist")
     void findSetNoSetID() {
@@ -101,7 +125,9 @@ class LegoSetManagerTest {
         assertNull(result, " Expected no Lego Set to be found for ID 123456");
     }
 
-    //Unit test to verify that a valid pieceCount update succeeds and modifies the stored value.
+    /**
+     * Test updating a Lego set with a valid piece count.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Update pieceCount with valid value")
     void updateAttribute() {
@@ -118,7 +144,9 @@ class LegoSetManagerTest {
         assertEquals(9500, updatedSet.getPieceCount());
     }
 
-    //Unit test that verifies that invalid numeric input is rejected and the original value remains.
+    /**
+     * Tests updating a lego set with an invalid piece count input.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Reject invalid pieceCount input ( non-numeric)")
     void updateAttributedatavalidation() {
@@ -135,7 +163,9 @@ class LegoSetManagerTest {
         assertEquals(9023, updatedSet.getPieceCount());
     }
 
-    //Unit test to verify custom action of totalLegoPieceCount stores and displayed the correct sum.
+    /**
+     * Tests the total piece count calculation.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Count total pieces - expect piece count to match 9023")
     void countTotalPieces() {
@@ -145,7 +175,9 @@ class LegoSetManagerTest {
         assertEquals(9023, result);
     }
 
-    //Unit test to verify custom action displays no pieces on an empty database.
+    /**
+     * Tests total piece count with no data added.
+     */
     @org.junit.jupiter.api.Test
     @DisplayName("Expect pieces count to be zero per no sets have been added")
     void countTotalPiecesNoSets() {
@@ -154,7 +186,9 @@ class LegoSetManagerTest {
         assertEquals(0, totalPieces);
     }
 
-    //Unit test to verify that a valid file is loaded correctly and sets are stored in memory.
+    /**
+     * Tests loading Lego sets from a valid file.
+     */
     @org.junit.jupiter.api.Test
     void loadSetsFromFile() {
         LegoSetManager manager = new LegoSetManager();
@@ -172,7 +206,9 @@ class LegoSetManagerTest {
     }
 
 
-//Unit test to verify an invalid file path does not load any data and leaves the system unchanged.
+    /**
+     * Tests loading Lego sets from an invalid file path.
+     */
     @org.junit.jupiter.api.Test
     void loadSetsFromFileIncorrectPath() {
         LegoSetManager manager = new LegoSetManager();

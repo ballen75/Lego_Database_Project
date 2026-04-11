@@ -2,9 +2,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//Data Access Object for interacting with lego set tables
+/**
+ * The LegoDAO class acts as the Data Access Object for interacting with the lego_sets table in the SQLite database
+ *
+ * Provides methods to crate, read, update and delete (CRUD) legoset records.
+ */
 public class LegoDAO {
 
+    /**
+     * Checks if a Lego set with the given ID already exists in the database
+     *
+     * @param conn active database connection
+     * @param legoSetID the ID of the lego set to check
+     * @return true if the set exists, false otherwise.
+     */
     public static boolean exists(Connection conn, String legoSetID) {
         String sql = "SELECT COUNT(*) FROM lego_sets WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -17,6 +28,12 @@ public class LegoDAO {
         }
     }
 
+    /**
+     * Inserts a new Lego set in the database.
+     *
+     * @param conn active database connection
+     * @param set the LegoSet object to insert
+     */
     public static void addSet(Connection conn, LegoSet set) {
         String sql = "INSERT INTO lego_sets(id, name, pieces, price, year, age) VALUES(?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -32,6 +49,12 @@ public class LegoDAO {
         }
     }
 
+    /**
+     * Deletes lego set from the database by ID.
+     *
+     * @param conn active database connection
+     * @param id the ID of the Lego set to delete
+     */
     public static void deleteSet(Connection conn, String id) {
         String sql = "DELETE FROM lego_sets WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -42,6 +65,12 @@ public class LegoDAO {
         }
     }
 
+    /**
+     * Updates an existing Lego set in the database.
+     *
+     * @param conn the active database connection
+     * @param set the LegoSet object containing updated values
+     */
     public static void updateSet(Connection conn, LegoSet set) {
         String sql = "UPDATE lego_sets SET name=?, pieces=?, price=?, year=?, age=? WHERE id=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -56,6 +85,13 @@ public class LegoDAO {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Retrieces Lego Sets from the database.
+     *
+     * @param conn active database connection
+     * @return list of all LegoSet objects stored in the database.
+     */
 
     public static List<LegoSet> getAllSets(Connection conn) {
         List<LegoSet> sets = new ArrayList<>();
